@@ -1,19 +1,28 @@
 # Changelog
-<!--
-  Purpose:
-  - Track project change history over time.
-  - Record date, summary, and key files touched for each change set.
-  - Keep entries append-only (do not delete past entries).
--->
 
-## 2026-03-19
-- Hardened `scripts/dev-supervisor.js` for Railway/container runtime:
-  - `GIT_BOOTSTRAP` now defaults to `true` when `REPO_URL` is provided (can be disabled via `GIT_BOOTSTRAP=false`).
-  - `GIT_POLL` default is `true` (can be disabled via `GIT_POLL=false`).
-  - Removed destructive runtime git cleanup behavior (`git clean -fd`).
-  - Added `pnpm exec next` fallback when `.bin/next` is not found.
-  - Added explanatory inline comments for future maintainers/agents.
-- Updated Next config to set explicit Turbopack root to project root (`turbopack.root`).
-- Updated Docker app image install step to force clean dependency install:
-  - `RUN rm -rf node_modules && pnpm install --prefer-offline --no-frozen-lockfile`
-- Updated README supervisor/runtime notes to match current defaults and env-file behavior.
+## [2024-06-10] DealNest Branding & Dashboard Foundation
+
+### Added
+- New branding and content overhaul, relaunching the SaaS template as "DealNest"
+- Updated homepage content (`content/home.ts`) including hero, features, testimonials, pricing, FAQ, team, and contact to DealNest copy and positioning.
+- Navbar branding, routes, and features (in `components/layout/navbar.tsx`) fully rebranded to DealNest.
+
+### Authentication
+- Auth UI (sign-in, sign-up, forgot-password) headings, subheadings, buttons, and helpers now feature DealNest language and improved onboarding flow in `app/auth/client.tsx` and `app/auth/forgot-password/client.tsx`.
+
+### Dashboard
+- Sidebar navigation (`components/dashboard/sidebar-nav.tsx`) now includes Overview, Contacts, Deals, Settings, Team with DealNest-specific icons and label text.
+- Dashboard shell (`app/dashboard/layout.tsx`) branding updated: text logo, section label, and colors for DealNest.
+- Dashboard overview (`app/dashboard/page.tsx` and `app/dashboard/client.tsx`) with welcome message, subheading, and empty state CTA for adding contacts/deals.
+- Created and enabled routes/pages for:
+  - `/dashboard/contacts`: Empty state and CTA (add contact)
+  - `/dashboard/contacts/new`: "Add new contact" shell
+  - `/dashboard/deals`: Empty state and CTA (add deal)
+  - `/dashboard/deals/new`: "Add new deal" shell
+
+### Changed
+- Default dashboard and landing flows now fully introduce the user to DealNest, CRM-centric workflow, and branding.
+- Footer contact email set to chirag@bidx.ai as the owner and contact reference.
+
+### No Breaking Changes
+- Existing backend, authentication logic, and data models untouched—this release is brand and UX foundation only.
