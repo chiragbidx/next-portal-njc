@@ -1,6 +1,6 @@
 import "server-only";
 
-import { pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uniqueIndex, integer } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
 export const users = pgTable("users", {
@@ -106,6 +106,59 @@ export const featureItems = pgTable("feature_items", {
   title: text("title").notNull(),
   description: text("description").notNull().default(""),
   status: text("status").notNull().default("active"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+// ---------- CRM TABLES ----------
+
+// Contacts: Minimum fields: id, teamId, firstName, lastName, email, phone, company, jobTitle, notes, createdAt, updatedAt
+export const contacts = pgTable("contacts", {
+  id: text("id")
+    .notNull()
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  teamId: text("team_id")
+    .notNull()
+    .references(() => teams.id, { onDelete: "cascade" }),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  company: text("company"),
+  jobTitle: text("job_title"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+}, (table) => [
+  uniqueIndex("contacts_team_email_idx").on(table.teamId, table.email),
+]);
+
+// Deals: Minimum fields: id, teamId, contactId, title, value, currency, stage, status, notes, createdAt, updatedAt
+export const deals = pgTable("deals", {
+  id: text("id")
+    .notNull()
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  teamId: text("team_id")
+    .notNull()
+    .references(() => teams.id, { onDelete: "cascade" }),
+  contactId: text("contact_id")
+    .references(() => contacts.id, { onDelete: "set null" }), // Deal may be detached from contact
+  title: text("title").notNull(),
+  value: integer("value").notNull(), // Store as integer (e.g., cents)
+  currency: text("currency").notNull().default("USD"),
+  stage: text("stage").notNull().default("lead"), // Example: lead, proposal, negotiation, closed_won, closed_lost
+  status: text("status").notNull().default("active"),
+  notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
