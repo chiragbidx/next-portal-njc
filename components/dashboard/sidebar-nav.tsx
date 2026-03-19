@@ -8,8 +8,8 @@ import {
   Home,
   Users,
   Settings,
-  AddressBook,
-  HandCoins,
+  Contact,
+  BadgeDollarSign,
 } from "lucide-react";
 import {
   Collapsible,
@@ -29,8 +29,8 @@ const sections: { title: string; items: NavItem[] }[] = [
     title: "DealNest CRM",
     items: [
       { label: "Overview", href: "/dashboard", icon: Home },
-      { label: "Contacts", href: "/dashboard/contacts", icon: AddressBook },
-      { label: "Deals", href: "/dashboard/deals", icon: HandCoins },
+      { label: "Contacts", href: "/dashboard/contacts", icon: Contact },
+      { label: "Deals", href: "/dashboard/deals", icon: BadgeDollarSign },
     ],
   },
   {
