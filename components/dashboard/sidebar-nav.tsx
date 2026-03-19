@@ -6,9 +6,10 @@ import { usePathname } from "next/navigation";
 import {
   ChevronDown,
   Home,
-  Hammer,
-  Settings,
   Users,
+  Settings,
+  AddressBook,
+  HandCoins,
 } from "lucide-react";
 import {
   Collapsible,
@@ -25,14 +26,11 @@ type NavItem = {
 
 const sections: { title: string; items: NavItem[] }[] = [
   {
-    title: "Platform",
+    title: "DealNest CRM",
     items: [
       { label: "Overview", href: "/dashboard", icon: Home },
-      {
-        label: "Feature",
-        href: "/dashboard/feature",
-        icon: Hammer,
-      },
+      { label: "Contacts", href: "/dashboard/contacts", icon: AddressBook },
+      { label: "Deals", href: "/dashboard/deals", icon: HandCoins },
     ],
   },
   {
